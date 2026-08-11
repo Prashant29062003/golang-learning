@@ -18,10 +18,11 @@ func main() {
 		fmt.Println("range", i)
 	}
 
-	for {
-		fmt.Println("loop")
-		break
-	}
+	// infinite loop
+	// for {
+	// 	fmt.Println("loop")
+	// 	break
+	// }
 
 	for n := range 6 {
 		if n % 2 == 0 {

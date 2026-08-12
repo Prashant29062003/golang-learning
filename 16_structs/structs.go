@@ -5,11 +5,19 @@ import (
 	"time"
 )
 
+// struct embedding
+type customer struct {
+	Name string
+	Phone string
+}
+
+// Composition
 type order struct {
 	ID          string
 	AmountCents int64 // Storing money as integer cents avoids floating-point inaccuracies
 	Status      string
 	createdAt   time.Time // nano sec precision
+	customer	// struct embedding
 }
 
 
@@ -29,6 +37,17 @@ func NewOrder(id string, amountCents int64, status string) *order {
 		Status:      status,
 		createdAt:   time.Now(),
 	}
+}
+
+func NewCustomer(name string, phone string) *customer {
+	return &customer{
+		Name: name,
+		Phone: phone,
+	}
+}
+
+func (o *order) customerDetail(customerProfile customer) {
+	o.customer = customerProfile
 }
 
 // like classes in other languages we use here struct
@@ -64,4 +83,12 @@ func main() {
 	fmt.Printf("Order 2: %+v\n", order2) // Order 2: {ID:4 AmountCents:3100 Status:received createdAt:{wall:14021728242842607628 ext:1 loc:0x7ff77a9874a0}}
 
 	fmt.Println(order2.getAmount())
+
+	// struct embedding
+	order3 := NewOrder("5", 45, "pending")
+
+	cust := NewCustomer("Prashant", "1234567890")
+	order3.customerDetail(*cust)
+	order3.customer.Name = "Robin"
+	fmt.Printf("Order 3 with customer: %+v\n", order3)
 }
